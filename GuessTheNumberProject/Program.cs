@@ -7,14 +7,18 @@ using System.Threading.Tasks;
 namespace GuessTheNumberProject {
 
 	class Program {
-		int GenerateMagicNumber(int HighestNumber) {
+		const int MaxGuesses = 7;
+		int NbrOfGuesses = MaxGuesses;
+
+		int GenerateMagicNumber(int HighestNumber) { 
 			Random rnd = new Random();
-			var MagicNumber = rnd.Next(11);
-			Debug($"The magic number is {MagicNumber}");
+			var MagicNumber = rnd.Next(HighestNumber+1);
+			//Debug($"The magic number is {MagicNumber}");
 			return MagicNumber;
 		}
 
 		int AskForTheGuess() {
+			NbrOfGuesses--;  //same as NbrOfGuesses - NbrOfGuesses - 1;
 			Console.Write($"Enter your guess : ");
 			var TheGuess = Console.ReadLine();
 			int GuessNumber = int.Parse(TheGuess);
@@ -42,12 +46,20 @@ namespace GuessTheNumberProject {
 				return true;
 			}
 			if (Result == -1) {  // if the guess is too low
-				Debug("Too low - guess again.");
+				Debug($"Too low. You have {NbrOfGuesses} guesses remaining.");
+				if(NbrOfGuesses == 0) {
+					Debug("You're out of guesses - you lose!");
+					return true;
+				}
 				return false;
 			}
 			if (Result == 1) {  //if the guess is too high
-				Debug("Too high - guess again.");
-				return false;
+				Debug($"Too high. You have {NbrOfGuesses} guesses remaining.");
+				if (NbrOfGuesses == 0) {
+					Debug("You're out of guesses - you lose!");
+					return true;
+				}
+					return false;
 			}
 			return true;
 		}
@@ -57,6 +69,7 @@ namespace GuessTheNumberProject {
 		}
 
 		void RunGameOnce() {
+			NbrOfGuesses = MaxGuesses;
 			var MagicNumber = GenerateMagicNumber(100);
 			bool GameOver = false;
 			while (GameOver == false) {
