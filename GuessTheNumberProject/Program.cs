@@ -56,7 +56,7 @@ namespace GuessTheNumberProject {
 			Console.WriteLine(message);
 		}
 
-		void Run() {
+		void RunGameOnce() {
 			var MagicNumber = GenerateMagicNumber(100);
 			bool GameOver = false;
 			while (GameOver == false) {
@@ -64,6 +64,19 @@ namespace GuessTheNumberProject {
 				var GuessResult = CompareGuessToMagicNumber(MagicNumber, UserGuess);
 				GameOver = PrintOutcomeResult(GuessResult);
 			
+			}
+		}
+		void Run() {
+			bool PlayAgain = true;
+			while (PlayAgain == true) {
+				RunGameOnce();
+				Console.Write($"Do you want to play again? Y/N : ");
+				var answer = Console.ReadLine();
+				if(answer == "Y" || answer == "y") {
+					PlayAgain = true;
+				} else {
+					PlayAgain = false;
+				}
 			}
 		}
 
